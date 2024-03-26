@@ -29,6 +29,15 @@ do
         return proto
     end
 
+    local textMessageDissector = Proto('textmessage', 'Meshtastic Text')
+    local message_text_field = ProtoField.new("Meshstastic Message Text", "message.text", ftypes.STRING)
+    textMessageDissector.fields = { message_text_field }
+    textMessageDissector.dissector = function(tvb, pinfo, tree)
+        local subtree = tree:add(textMessageDissector, tvb())
+        subtree:add(message_text_field, tvb():string(ENC_UTF_8))
+        pinfo.columns.protocol:set('textmessage')
+    end
+
 
     local positionProto = add_payload_dissector(3, "position", "Meshtastic Position", "meshtastic.Position")
     local userProto = add_payload_dissector(4, "user", "Meshtastic User", "meshtastic.User")
@@ -39,6 +48,7 @@ do
     local fromRadioDissector = create_protobuf_dissector("fromRadio", "Meshtastic From Radio", "meshtastic.FromRadio")
 
     local payload_dissectors = {
+        ["01"] = textMessageDissector,
         ["03"] = positionProto,
         ["04"] = userProto,
         ["05"] = routingDissector,
