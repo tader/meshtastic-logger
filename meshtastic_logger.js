@@ -2,8 +2,21 @@ import { PortNum } from './gen/meshtastic/portnums_pb.js';
 
 import { MeshtasticPacketHandler } from './meshtastic_packet_handler.js';
 
+function emojihash(hash) {
+    const emojiSets = [
+        ["🔴", "🟠", "🟡", "🟢", "🔵", "🟣"],
+        ["🔴", "🟠", "🟡", "🟢", "🔵", "🟣"],
+        ["🔴", "🟠", "🟡", "🟢", "🔵", "🟣"],
+    ];
+
+    return emojiSets.reduce(
+        ([result, remaining], set) => [result + set[remaining % set.length], Math.floor(remaining / set.length)],
+        ["", hash]
+    )[0];
+}
+
 function addrFmt(address) {
-    return `!${address.toString(16).padStart(8, '0')}`.toUpperCase();
+    return `${emojihash(address)} !${address.toString(16).padStart(8, '0')}`.toUpperCase();
 }
 
 export class MeshtasticLogger {
