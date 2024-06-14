@@ -40,7 +40,7 @@ export class MeshtasticPacketHandler extends EventEmitter {
             switch(data.portnum) {
                 case PortNum.TEXT_MESSAGE_APP:
                     // https://github.com/meshtastic/firmware/blob/94e4301f2f5f224e0d1dc828aeca2846714d9e35/src/mesh/MeshService.h#L51
-                    this.emit('textMessage', data.payload, data, packet, fromRadio);
+                    this.emit('textMessage', data.payload.toString('utf-8'), data, packet, fromRadio);
                     break;
     
                 case PortNum.POSITION_APP:
@@ -77,12 +77,12 @@ export class MeshtasticPacketHandler extends EventEmitter {
                 
                 case PortNum.RANGE_TEST_APP:
                     // https://github.com/meshtastic/firmware/blob/94e4301f2f5f224e0d1dc828aeca2846714d9e35/src/mesh/MeshService.h#L51
-                    this.emit('rangetest', data.payload, data, packet, fromRadio);
+                    this.emit('rangetest', data.payload.toString('utf-8'), data, packet, fromRadio);
                     break;
                 
                 case PortNum.DETECTION_SENSOR_APP:
                     // https://github.com/meshtastic/firmware/blob/94e4301f2f5f224e0d1dc828aeca2846714d9e35/src/mesh/MeshService.h#L51
-                    this.emit('detectionSensor', data.payload, data, packet, fromRadio);
+                    this.emit('detectionSensor', data.payload.toString('utf-8'), data, packet, fromRadio);
                     break;
                 
                 case PortNum.ADMIN_APP:

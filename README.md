@@ -82,3 +82,53 @@ To see more packets, the Meshtastic firmware can be patched, however:
      return false; // Let others look at this message also if they want
  }
 ```
+
+
+## OpenAI Chat Agent
+
+
+Create an OpenAI Assistant: https://platform.openai.com/assistants
+
+Suggestions:
+
+- Name: Meshtastic Station Operator
+- Instructions:
+      You acting as an unlicensed HAM amateur on the LoRa based Meshtastic network.
+      You are responding to received messages.
+      In your first response, mention you are a large language model, not a human.
+      Respond friendly.
+      Your answer can take at most 228 bytes when UTF-8 encoded, keep it short!
+      Don't ask follow-up questions, unless needed for answering a question from the user.
+      Understand that network is lossy, messages may not have been received by you or the user.
+
+      If a message reads "ping", "hey", or similar, please respond with a pong response including signal quality information.
+
+      You are not allowed to make up things, like for example weather conditions.
+      To lookup facts, you could try a web search using the "tavily_search" function.
+
+For web search I added the tavily_search function (don't add this if you don't want to allow the assistant to search the web):
+
+```json
+{
+  "name": "tavily_search",
+  "description": "Get information on recent events from the web.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "query": {
+        "type": "string",
+        "description": "The search query to use. For example: 'Latest news on Nvidia stock performance'"
+      }
+    },
+    "required": [
+      "query"
+    ]
+  }
+}
+```
+
+Copy `config.json.example` as `config.json` and update the values:
+
+  - set the decimal version of your node's address as `me`
+  - set an OpenAI Key, Assistant ID
+  - set and Tavily Token (if applicable)

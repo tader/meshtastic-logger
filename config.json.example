@@ -1,0 +1,6 @@
+{
+    "me": 1234567890,
+    "OpenAIKey": "sk-xxxxxxxxxxxxxxx",
+    "OpenAIAssistantId": "asst_xxxxxxxxxxxxxxx",
+    "TavilyKey": "tvly-xxxxxxxxxxxxxxxx"
+}
